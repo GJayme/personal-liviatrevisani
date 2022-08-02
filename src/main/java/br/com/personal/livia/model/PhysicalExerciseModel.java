@@ -16,7 +16,7 @@ public class PhysicalExerciseModel {
     private String name;
 
     @Column(nullable = false)
-    private String muscleGroup;
+    private MuscleGroup muscleGroup;
 
     @Column
     private String description;
@@ -40,11 +40,11 @@ public class PhysicalExerciseModel {
         this.name = name;
     }
 
-    public String getMuscleGroup() {
+    public MuscleGroup getMuscleGroup() {
         return muscleGroup;
     }
 
-    public void setMuscleGroup(String muscleGroup) {
+    public void setMuscleGroup(MuscleGroup muscleGroup) {
         this.muscleGroup = muscleGroup;
     }
 

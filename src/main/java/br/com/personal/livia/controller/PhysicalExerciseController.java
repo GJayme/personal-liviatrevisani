@@ -1,6 +1,7 @@
 package br.com.personal.livia.controller;
 
 import br.com.personal.livia.dto.PhysicalExerciseDto;
+import br.com.personal.livia.exception.CustomException;
 import br.com.personal.livia.model.PhysicalExerciseModel;
 import br.com.personal.livia.service.PhysicalExerciseService;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ public class PhysicalExerciseController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveClient(@RequestBody @Valid PhysicalExerciseDto physicalExerciseDto) {
+    public ResponseEntity<Object> saveClient(@RequestBody @Valid PhysicalExerciseDto physicalExerciseDto) throws CustomException {
         PhysicalExerciseModel physicalExerciseModel = physicalExerciseService.save(physicalExerciseDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(physicalExerciseModel);
     }
