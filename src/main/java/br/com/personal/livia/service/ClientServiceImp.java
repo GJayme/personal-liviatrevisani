@@ -4,7 +4,7 @@ import br.com.personal.livia.dto.ClientDto;
 import br.com.personal.livia.exception.CustomException;
 import br.com.personal.livia.model.ClientModel;
 import br.com.personal.livia.repository.ClientRepository;
-import org.springframework.beans.BeanUtils;
+import br.com.personal.livia.util.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import java.util.UUID;
 @Service
 public class ClientServiceImp implements ClientService{
 
-    final ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
     public ClientServiceImp(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
@@ -29,19 +29,20 @@ public class ClientServiceImp implements ClientService{
 
     @Transactional
     public ClientModel save(ClientDto clientDto) throws CustomException {
-        var clientModel = new ClientModel();
-        BeanUtils.copyProperties(clientDto, clientModel);
+        ClientModel clientModelAlreadyExists = getByCpf(clientDto.getCpf());
+        if (clientModelAlreadyExists != null) {
+            throw new CustomException("Client: " + clientDto.getName() + " already registered in system.");
+        }
 
+        var clientModel = new ClientModel();
+        clientModel.setName(StringUtils.capitalize(clientDto.getName()));
+        clientModel.setGender(clientDto.getGender().toUpperCase().charAt(0));
+        clientModel.setBirthday(LocalDate.parse(clientDto.getBirthday()));
+        clientModel.setCelPhone(clientDto.getCelPhone());
+        clientModel.setCpf(clientDto.getCpf());
+        clientModel.setCpf(clientDto.getEmail());
         clientModel.setCreateDate(LocalDateTime.now(ZoneId.of("UTC")));
         clientModel.setUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-        clientModel.setBirthday(LocalDate.parse(clientDto.getBirthday()));
-        clientModel.setGender(clientDto.getGender().toUpperCase().charAt(0));
-
-        ClientModel clientModelAlreadyExists = getByCpf(clientDto.getCpf());
-
-        if (clientModelAlreadyExists != null) {
-            throw new CustomException("Client: " + clientDto.getName() + " already registered in system");
-        }
 
         return clientRepository.save(clientModel);
     }
