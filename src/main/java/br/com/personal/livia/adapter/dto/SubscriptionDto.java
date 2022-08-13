@@ -1,29 +1,26 @@
 package br.com.personal.livia.adapter.dto;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-
 public class SubscriptionDto {
 
-    @Min(1)
-    private int frequencyDays;
-
-    @DecimalMin(value = "0.0")
-    private Double valueHour;
-
-    @NotBlank
-    private String date;
-
-    @NotBlank
     private String clientId;
+    private Integer workoutQuantityAvailable;
+    private Double valueHour;
+    private String yearMonthReference;
 
-    public int getFrequencyDays() {
-        return frequencyDays;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setFrequencyDays(int frequencyDays) {
-        this.frequencyDays = frequencyDays;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public Integer getWorkoutQuantityAvailable() {
+        return workoutQuantityAvailable;
+    }
+
+    public void setWorkoutQuantityAvailable(Integer workoutQuantityAvailable) {
+        this.workoutQuantityAvailable = workoutQuantityAvailable;
     }
 
     public Double getValueHour() {
@@ -34,19 +31,11 @@ public class SubscriptionDto {
         this.valueHour = valueHour;
     }
 
-    public String getDate() {
-        return date;
+    public String getYearMonthReference() {
+        return yearMonthReference;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setYearMonthReference(String yearMonthReference) {
+        this.yearMonthReference = yearMonthReference;
     }
 }

@@ -2,8 +2,8 @@ package br.com.personal.livia.adapter.db.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.UUID;
 
 @Entity
@@ -13,22 +13,13 @@ public class SubscriptionModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    @Column(nullable = false)
-    private int frequencyDays;
-
-    @Column(nullable = false)
-    private Double valueHour;
-
-    @Column(nullable = false)
-    private LocalDate date;
-
     private UUID clientId;
-
-    @Column(nullable = false)
+    private Integer workoutQuantityAvailable;
+    private Integer workoutQuantityFinished;
+    private Double valueHour;
+    private Boolean expire;
+    private String yearMonthReference;
     private LocalDateTime createDate;
-
-    @Column(nullable = false)
     private LocalDateTime updateDate;
 
     public UUID getId() {
@@ -39,12 +30,28 @@ public class SubscriptionModel implements Serializable {
         this.id = id;
     }
 
-    public int getFrequencyDays() {
-        return frequencyDays;
+    public UUID getClientId() {
+        return clientId;
     }
 
-    public void setFrequencyDays(int frequencyDays) {
-        this.frequencyDays = frequencyDays;
+    public void setClientId(UUID clientId) {
+        this.clientId = clientId;
+    }
+
+    public Integer getWorkoutQuantityAvailable() {
+        return workoutQuantityAvailable;
+    }
+
+    public void setWorkoutQuantityAvailable(Integer workoutQuantityAvailable) {
+        this.workoutQuantityAvailable = workoutQuantityAvailable;
+    }
+
+    public Integer getWorkoutQuantityFinished() {
+        return workoutQuantityFinished;
+    }
+
+    public void setWorkoutQuantityFinished(Integer workoutQuantityFinished) {
+        this.workoutQuantityFinished = workoutQuantityFinished;
     }
 
     public Double getValueHour() {
@@ -55,20 +62,20 @@ public class SubscriptionModel implements Serializable {
         this.valueHour = valueHour;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Boolean getExpire() {
+        return expire;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setExpire(Boolean expire) {
+        this.expire = expire;
     }
 
-    public UUID getClientId() {
-        return clientId;
+    public String getYearMonthReference() {
+        return yearMonthReference;
     }
 
-    public void setClientId(UUID clientId) {
-        this.clientId = clientId;
+    public void setYearMonthReference(String yearMonthReference) {
+        this.yearMonthReference = yearMonthReference;
     }
 
     public LocalDateTime getCreateDate() {
