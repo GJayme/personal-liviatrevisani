@@ -4,7 +4,7 @@ import br.com.personal.livia.adapter.db.mapper.ClientMapper;
 import br.com.personal.livia.adapter.db.model.ClientModel;
 import br.com.personal.livia.adapter.dto.ClientDto;
 import br.com.personal.livia.domain.entity.Client;
-import br.com.personal.livia.domain.usecase.CreateClientUseCase;
+import br.com.personal.livia.domain.usecase.ClientCreateUseCase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,16 +20,16 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/client")
 public class ClientController {
 
-    final CreateClientUseCase createClientUseCase;
+    final ClientCreateUseCase clientCreateUseCase;
 
-    public ClientController(CreateClientUseCase createClientUseCase) {
-        this.createClientUseCase = createClientUseCase;
+    public ClientController(ClientCreateUseCase clientCreateUseCase) {
+        this.clientCreateUseCase = clientCreateUseCase;
     }
 
     @PostMapping
     public ResponseEntity<Object> saveClient(@RequestBody @Valid ClientDto clientDto) throws Exception {
         Client client = ClientMapper.toClient(clientDto);
-        Client clientSaved = createClientUseCase.create(client);
+        Client clientSaved = clientCreateUseCase.create(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(clientSaved);
     }
 
