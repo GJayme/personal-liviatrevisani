@@ -1,7 +1,10 @@
 package br.com.personal.livia.adapter.controller;
 
+import br.com.personal.livia.adapter.db.mapper.SubscriptionMapper;
 import br.com.personal.livia.adapter.dto.SubscriptionDto;
 import br.com.personal.livia.adapter.db.model.SubscriptionModel;
+import br.com.personal.livia.domain.entity.Subscription;
+import br.com.personal.livia.domain.usecase.SubscriptionCreateUseCase;
 import br.com.personal.livia.service.SubscriptionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,20 +21,22 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/subscription")
 public class SubscriptionController {
 
-//    final SubscriptionService subscriptionService;
-//
-//    public SubscriptionController(SubscriptionService subscriptionService) {
-//        this.subscriptionService = subscriptionService;
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<Object> saveSubscription(@RequestBody @Valid SubscriptionDto subscriptionDto) throws Exception {
-//        SubscriptionModel subscriptionModelSaved = subscriptionService.save(subscriptionDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionModelSaved);
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<Page<SubscriptionModel>> getAllSubscription(@PageableDefault(sort = "date", direction = Sort.Direction.ASC) Pageable pageable) {
+    final SubscriptionCreateUseCase subscriptionCreateUseCase;
+
+    public SubscriptionController(SubscriptionCreateUseCase subscriptionCreateUseCase) {
+        this.subscriptionCreateUseCase = subscriptionCreateUseCase;
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> createSubscription(@RequestBody @Valid SubscriptionDto subscriptionDto) throws Exception {
+        Subscription subscription = SubscriptionMapper.toSubscription(subscriptionDto);
+        Subscription subscriptionSaved = subscriptionCreateUseCase.create(subscription);
+        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionSaved);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<SubscriptionModel>> getAllSubscription(@PageableDefault(sort = "date", direction = Sort.Direction.ASC) Pageable pageable) {
 //        return subscriptionService.findAll(pageable);
-//    }
+        return null;
+    }
 }
