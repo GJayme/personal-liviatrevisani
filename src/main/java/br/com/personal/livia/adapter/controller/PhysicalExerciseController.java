@@ -1,18 +1,8 @@
 package br.com.personal.livia.adapter.controller;
 
-import br.com.personal.livia.adapter.dto.PhysicalExerciseDto;
-import br.com.personal.livia.exception.CustomException;
-import br.com.personal.livia.adapter.db.model.ExerciseModel;
-import br.com.personal.livia.service.PhysicalExerciseService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)

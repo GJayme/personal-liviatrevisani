@@ -1,11 +1,10 @@
 package br.com.personal.livia.adapter.controller;
 
 import br.com.personal.livia.adapter.db.mapper.SubscriptionMapper;
-import br.com.personal.livia.adapter.dto.SubscriptionDto;
 import br.com.personal.livia.adapter.db.model.SubscriptionModel;
+import br.com.personal.livia.adapter.dto.SubscriptionDto;
 import br.com.personal.livia.domain.entity.Subscription;
 import br.com.personal.livia.domain.usecase.SubscriptionCreateUseCase;
-import br.com.personal.livia.service.SubscriptionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
