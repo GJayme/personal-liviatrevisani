@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface JpaClientSpringData extends JpaRepository<ClientModel, UUID> {
 
+    Optional<ClientModel> findById(UUID id);
+
     Optional<ClientModel> findByCpf(String cpf);
 
     Optional<ClientModel> findByEmail(String email);

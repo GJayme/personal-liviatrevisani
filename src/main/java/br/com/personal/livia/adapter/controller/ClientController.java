@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -30,6 +31,12 @@ public class ClientController {
         Client client = ClientMapper.toClient(clientDto);
         Client clientSaved = clientCreateUseCase.create(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(clientSaved);
+    }
+
+    @GetMapping("/id={id}")
+    public ResponseEntity<Object> getClientById(@PathVariable(value = "id") UUID id) {
+        Client client = clientFindUseCase.findById(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(client);
     }
 
     @GetMapping("/cpf={cpf}")

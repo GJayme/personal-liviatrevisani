@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class JpaClientRepository implements ClientRepository {
@@ -28,8 +29,13 @@ public class JpaClientRepository implements ClientRepository {
     }
 
     @Override
-    public boolean delete(Client client) {
-        return false;
+    public Optional<Client> findById(UUID id) {
+        Optional<ClientModel> clientModelOptional = jpaClientSpringData.findById(id);
+        if (clientModelOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        var client = ClientMapper.toClient(clientModelOptional.get());
+        return Optional.of(client);
     }
 
     @Override

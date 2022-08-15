@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ClientFindUseCase {
@@ -15,6 +16,14 @@ public class ClientFindUseCase {
 
     public ClientFindUseCase(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
+    }
+
+    public Client findById(UUID id) {
+        Optional<Client> optionalClientById = clientRepository.findById(id);
+        if (optionalClientById.isEmpty()) {
+            throw new ClientException("The system has no find the client of id: " + id + ". Please verify and try again.");
+        }
+        return optionalClientById.get();
     }
 
     public Client findByCpf(String cpf) {
