@@ -1,19 +1,16 @@
 package br.com.personal.livia.adapter.controller;
 
 import br.com.personal.livia.adapter.db.mapper.ClientMapper;
-import br.com.personal.livia.adapter.db.model.ClientModel;
 import br.com.personal.livia.adapter.dto.ClientDto;
 import br.com.personal.livia.domain.entity.Client;
 import br.com.personal.livia.domain.usecase.ClientCreateUseCase;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import br.com.personal.livia.domain.usecase.ClientFindUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -21,21 +18,35 @@ import javax.validation.Valid;
 public class ClientController {
 
     final ClientCreateUseCase clientCreateUseCase;
+    final ClientFindUseCase clientFindUseCase;
 
-    public ClientController(ClientCreateUseCase clientCreateUseCase) {
+    public ClientController(ClientCreateUseCase clientCreateUseCase, ClientFindUseCase clientFindUseCase) {
         this.clientCreateUseCase = clientCreateUseCase;
+        this.clientFindUseCase = clientFindUseCase;
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveClient(@RequestBody @Valid ClientDto clientDto) throws Exception {
+    public ResponseEntity<Object> saveClient(@RequestBody @Valid ClientDto clientDto) {
         Client client = ClientMapper.toClient(clientDto);
         Client clientSaved = clientCreateUseCase.create(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(clientSaved);
     }
 
-    @GetMapping
-    public ResponseEntity<Page<ClientModel>> getAllClient(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-//        return clientService.findAll(pageable);
-        return null;
+    @GetMapping("/cpf={cpf}")
+    public ResponseEntity<Object> getClientByCpf(@PathVariable(value = "cpf") String cpf) {
+        Client client = clientFindUseCase.findByCpf(cpf);
+        return ResponseEntity.status(HttpStatus.CREATED).body(client);
+    }
+
+    @GetMapping("/email={email}")
+    public ResponseEntity<Object> getClientById(@PathVariable(value = "email") String email) {
+        Client client = clientFindUseCase.findByEmail(email);
+        return ResponseEntity.status(HttpStatus.CREATED).body(client);
+    }
+
+    @GetMapping()
+    public ResponseEntity<Object> getAllClient() {
+        List<Client> clientList = clientFindUseCase.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(clientList);
     }
 }

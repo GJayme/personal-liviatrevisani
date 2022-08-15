@@ -33,4 +33,19 @@ public interface ClientMapper {
                 .setEmail(clientDto.getEmail())
                 .build();
     }
+
+    static Client toClient(ClientModel clientModel) {
+         return new Client.ClientBuilder()
+                 .setId(clientModel.getId())
+                 .setName(clientModel.getName())
+                 .setGender(Gender.getGender(clientModel.getGender()))
+                 .setBirthday(clientModel.getBirthday())
+                 .setCelPhone(clientModel.getCelPhone())
+                 .setCpf(clientModel.getCpf())
+                 .setEmail(clientModel.getEmail())
+                 .setCreateDate(clientModel.getCreateDate())
+                 .setUpdateDate(clientModel.getUpdateDate())
+                 .build();
+
+    }
 }

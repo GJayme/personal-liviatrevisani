@@ -1,9 +1,10 @@
 package br.com.personal.livia.adapter.db.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.util.UUID;
 
 @Entity
@@ -11,7 +12,6 @@ import java.util.UUID;
 public class SubscriptionModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private UUID clientId;
     private Integer workoutQuantityAvailable;

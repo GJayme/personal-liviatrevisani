@@ -7,6 +7,7 @@ import br.com.personal.livia.domain.entity.Client;
 import br.com.personal.livia.domain.usecase.port.ClientRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,19 +34,32 @@ public class JpaClientRepository implements ClientRepository {
 
     @Override
     public Optional<Client> findByCpf(String cpf) {
-//        return jpaClientSpringData.findByCpf(cpf);
-        return null;
+        Optional<ClientModel> clientModelOptional = jpaClientSpringData.findByCpf(cpf);
+        if (clientModelOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        var client = ClientMapper.toClient(clientModelOptional.get());
+        return Optional.of(client);
     }
 
     @Override
     public Optional<Client> findByEmail(String email) {
-//        return jpaClientSpringData.findByEmail(email);
-        return null;
+        Optional<ClientModel> clientModelOptional = jpaClientSpringData.findByEmail(email);
+        if (clientModelOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        var client = ClientMapper.toClient(clientModelOptional.get());
+        return Optional.of(client);
     }
 
     @Override
     public List<Client> findAll() {
-//        return jpaClientSpringData.;
-        return null;
+        List<ClientModel> clientModelList = jpaClientSpringData.findAll();
+        List<Client> clientList = new ArrayList<>();
+        for (ClientModel clientModel : clientModelList) {
+            var client = ClientMapper.toClient(clientModel);
+            clientList.add(client);
+        }
+        return clientList;
     }
 }
