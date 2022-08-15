@@ -11,6 +11,7 @@ public interface ClientMapper {
 
      static ClientModel toEntity(Client client) {
         var clientModel = new ClientModel();
+        clientModel.setId(client.getId());
         clientModel.setName(client.getName());
         clientModel.setGender(client.getGender().getDescription());
         clientModel.setBirthday(client.getBirthday());
