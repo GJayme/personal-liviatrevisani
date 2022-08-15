@@ -21,8 +21,9 @@ public class Client {
     private final LocalDateTime createDate;
     private LocalDateTime updateDate;
 
-    public Client(String name, Gender gender, LocalDate birthday, String celPhone, String cpf, String email) {
-        this.id = UUID.randomUUID();
+    public Client(UUID id, String name, Gender gender, LocalDate birthday, String celPhone, String cpf, String email, LocalDateTime createDate, LocalDateTime updateDate) {
+        this.id = Objects.requireNonNullElseGet(id, UUID::randomUUID);
+
         validOrThrow(name == null, "Client name doesn't should be null.");
         this.name = name;
 
@@ -41,9 +42,9 @@ public class Client {
         validOrThrow(email == null, "Client email doesn't should be null.");
         this.email = email;
 
-        LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("UTC"));
-        this.createDate = localDateTime;
-        this.updateDate = localDateTime;
+        LocalDateTime localDateTimeNowUTC = LocalDateTime.now(ZoneId.of("UTC"));
+        this.createDate = Objects.requireNonNullElse(createDate, localDateTimeNowUTC);
+        this.updateDate = Objects.requireNonNullElse(updateDate, localDateTimeNowUTC);
     }
 
     private void validCpfOrThrow(String cpf) {
@@ -139,12 +140,20 @@ public class Client {
     }
 
     public static class ClientBuilder {
+        private UUID id;
         private String name;
         private Gender gender;
         private LocalDate birthday;
         private String celPhone;
         private String cpf;
         private String email;
+        private LocalDateTime createDate;
+        private LocalDateTime updateDate;
+
+        public ClientBuilder setId(UUID id) {
+            this.id = id;
+            return this;
+        }
 
         public ClientBuilder setName(String name) {
             this.name = name;
@@ -176,8 +185,18 @@ public class Client {
             return this;
         }
 
+        public ClientBuilder setCreateDate(LocalDateTime createDate) {
+            this.createDate = createDate;
+            return this;
+        }
+
+        public ClientBuilder setUpdateDate(LocalDateTime updateDate) {
+            this.updateDate = updateDate;
+            return this;
+        }
+
         public Client build() {
-            return new Client(name, gender, birthday, celPhone, cpf, email);
+            return new Client(id, name, gender, birthday, celPhone, cpf, email, createDate, updateDate);
         }
     }
 }
